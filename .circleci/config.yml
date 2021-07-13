@@ -3,52 +3,41 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
-
-shared: &shared
-  steps:
-    - checkout
-
-    - run:
-        name: Install dependencies
-        command: |
-          gem i bundler -v'> 2'
-          bundle install --jobs=4 --retry=3
-
-    - run:
-        name: Run rubocop
-        command: |
-          bundle exec rubocop
-
-    - run:
-        name: Run tests
-        command: |
-          bundle exec rspec --color --require spec_helper spec --format progress
+orbs:
+  ruby: circleci/ruby@1.1.2
 
 jobs:
-  "ruby-25":
-    <<: *shared
+  rspec:
+    parameters:
+      image:
+        description: "Name of the Docker image."
+        type: string
+        default: "cimg/ruby"
     docker:
-      - image: circleci/ruby:2.5-node-browsers
-        environment:
-          BUNDLE_PATH: vendor/bundle
-  "ruby-26":
-    <<: *shared
-    docker:
-      - image: circleci/ruby:2.6-node-browsers
-        environment:
-          BUNDLE_PATH: vendor/bundle
-  "jruby-92":
-    <<: *shared
-    docker:
-      - image: circleci/jruby:9.2-jdk
-        environment:
-          BUNDLE_PATH: vendor/bundle
-          JRUBY_OPTS: "--debug"
+      - image: << parameters.image >>
+    environment:
+      JRUBY_OPTS: "--debug"
+    steps:
+      - checkout
+      - run: bundle install
+      - run: bundle exec rubocop
+      - run: bundle exec rspec
 
 workflows:
-  version: 2
   build:
     jobs:
-      - "ruby-25"
-      - "ruby-26"
-      - "jruby-92"
+      - rspec:
+          name: Ruby 2.5
+          image: cimg/ruby:2.5
+      - rspec:
+          name: Ruby 2.6
+          image: cimg/ruby:2.6
+      - rspec:
+          name: Ruby 2.7
+          image: cimg/ruby:2.7
+      - rspec:
+          name: Ruby 3.0
+          image: cimg/ruby:3.0
+      - rspec:
+          name: JRuby 9.2
+          image: circleci/jruby:9.2

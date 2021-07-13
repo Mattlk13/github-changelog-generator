@@ -80,7 +80,7 @@ module GitHubChangelogGenerator
       # remove spaces from beginning of the string
       body_paragraph.rstrip!
       # encapsulate to md
-      encapsulated_body = "\s\s\n" + encapsulate_string(body_paragraph)
+      encapsulated_body = "  \n#{encapsulate_string(body_paragraph)}"
 
       "**#{line}** #{encapsulated_body}"
     end
@@ -112,7 +112,10 @@ module GitHubChangelogGenerator
       string = string.gsub('\\', '\\\\')
 
       ENCAPSULATED_CHARACTERS.each do |char|
-        string = string.gsub(char, "\\#{char}")
+        # Only replace char with escaped version if it isn't inside backticks (markdown inline code).
+        # This relies on each opening '`' being closed (ie an even number in total).
+        # A char is *outside* backticks if there is an even number of backticks following it.
+        string = string.gsub(%r{#{Regexp.escape(char)}(?=([^`]*`[^`]*`)*[^`]*$)}, "\\#{char}")
       end
 
       string

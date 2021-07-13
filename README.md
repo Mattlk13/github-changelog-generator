@@ -39,7 +39,7 @@ To update TOC, please run:
 
 ### Changelog generation has never been so easy
 
-**Fully automated changelog generation** - This gem generates a changelog file based on **tags**, **issues** and merged **pull requests** (and splits them into separate lists according to labels) from :octocat: GitHub Issue Tracker.
+**Fully automated changelog generation** - This gem generates a changelog file based on **tags**, **issues** and merged **pull requests** (and splits them into separate lists according to labels) from :octocat: GitHub.
 
 Since you don't have to fill your `CHANGELOG.md` manually now: just run the script, relax and take a cup of :coffee: before your next release! :tada:
 
@@ -73,7 +73,9 @@ or use `sudo gem install github_changelog_generator` (Linux).
 
 ### Running with CLI:
 
-	   github_changelog_generator -u github_username -p github_project
+	   github_changelog_generator -u github_project_namespace -p github_project
+
+(where the project namespace is _likely_ your username if it's a project you own, but it could also be the namespace of the project)
 
 
 ### Running with Docker
@@ -82,11 +84,11 @@ Using [Docker](https://www.docker.com/products/docker-desktop) is an alternative
 
 Example invocation:
 
-    $ docker run -it --rm -v "$(pwd)":/usr/local/src/your-app ferrarimarco/github-changelog-generator
+    $ docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator
 
 
 
-- For Github Enterprise repos, specify *both* `--github-site` and `--github-api` options:
+- For GitHub Enterprise repos, specify *both* `--github-site` and `--github-api` options:
 
        $ github_changelog_generator --github-site="https://github.yoursite.com" \
                                   --github-api="https://github.yoursite.com/api/v3/"
@@ -318,7 +320,7 @@ Workaround: Create a `C:\tmp`.
 
 ## Contributing
 
-We have collected notes on how to contribute to this project in [CONTRIBUTING.md].
+Would you like to contribute to this project? [CONTRIBUTING.md] has all the details on how to do that.
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
 
@@ -327,4 +329,4 @@ We have collected notes on how to contribute to this project in [CONTRIBUTING.md
 
 ## License
 
-Github Changelog Generator is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+GitHub Changelog Generator is released under the [MIT License](http://www.opensource.org/licenses/MIT).

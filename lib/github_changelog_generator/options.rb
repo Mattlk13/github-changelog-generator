@@ -25,6 +25,7 @@ module GitHubChangelogGenerator
       bug_prefix
       cache_file
       cache_log
+      config_file
       compare_link
       configure_sections
       date_format
@@ -37,6 +38,7 @@ module GitHubChangelogGenerator
       exclude_tags
       exclude_tags_regex
       filter_issues_by_milestone
+      issues_of_open_milestones
       frontmatter
       future_release
       github_endpoint
@@ -44,6 +46,7 @@ module GitHubChangelogGenerator
       header
       http_cache
       include_labels
+      include_tags_regex
       issue_prefix
       issue_line_labels
       issue_line_body
@@ -62,6 +65,7 @@ module GitHubChangelogGenerator
       security_prefix
       simple_list
       since_tag
+      since_commit
       ssl_ca_file
       summary_labels
       summary_prefix
